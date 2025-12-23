@@ -1,1 +1,19 @@
-
+SELECT * FROM Car WHERE status = 'AVAILABLE';
+SELECT DISTINCT c.name FROM Customer c JOIN Booking b ON c.customer_id = b.customer_id;
+SELECT SUM(amount) AS total_revenue FROM Payment;
+SELECT AVG(price_per_day) FROM Car;
+SELECT customer_id, COUNT(*) FROM Booking GROUP BY customer_id;
+SELECT car_id, COUNT(*) FROM Booking GROUP BY car_id HAVING COUNT(*) > 1;
+SELECT rental_id, late_fee FROM Rental WHERE late_fee > 0;
+SELECT employee_id, COUNT(*) FROM Car GROUP BY employee_id ORDER BY COUNT(*) DESC LIMIT 1;
+SELECT booking_id, (end_date - start_date) AS duration_days FROM Booking;
+SELECT name FROM Customer WHERE email LIKE '%@gmail.com';
+SELECT * FROM Car ORDER BY price_per_day DESC LIMIT 1;
+SELECT EXTRACT(MONTH FROM payment_date) AS month, SUM(amount) FROM Payment GROUP BY month;
+SELECT SUM(late_fee) FROM Rental;
+SELECT DISTINCT car_id FROM Booking WHERE EXTRACT(MONTH FROM start_date) = 1;
+SELECT c.name, b.booking_id, r.pickup_date, r.return_date
+FROM Customer c
+JOIN Booking b ON c.customer_id = b.customer_id
+JOIN Rental r ON b.booking_id = r.booking_id;
+SELECT * FROM Car WHERE price_per_day >= ( SELECT AVG(price_per_day) FROM Car );
