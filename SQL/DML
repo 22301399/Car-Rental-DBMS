@@ -1,1 +1,20 @@
-
+INSERT INTO Customer (name, email, phone, license_no)
+VALUES ('John Doe', 'john@gmail.com', '9876543210', 'DL12345');
+INSERT INTO Employee (name, role, salary)
+VALUES ('Alice Smith', 'Manager', 50000);
+INSERT INTO Car (brand, model, car_year, price_per_day,
+employee_id)
+VALUES ('Toyota', 'Innova', 2022, 3000, 1);
+INSERT INTO Booking (customer_id, car_id, start_date, end_date,
+total_cost)
+VALUES (1, 1, '2025-01-10', '2025-01-15', 15000);
+INSERT INTO Rental (booking_id, pickup_date, return_date,
+late_fee)
+VALUES (1, '2025-01-10', '2025-01-16', 1000);
+INSERT INTO Payment (booking_id, amount, payment_date,
+payment_method)
+VALUES (1, 16000, '2025-01-16', 'Credit Card');
+UPDATE Customer SET phone = '9123456780' WHERE customer_id = 1;
+UPDATE Employee SET salary = 55000 WHERE employee_id = 1;
+DELETE FROM Payment WHERE payment_id = 1;
+DELETE FROM Rental WHERE rental_id = 1;
