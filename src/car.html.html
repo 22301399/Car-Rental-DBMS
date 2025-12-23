@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Rental System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="car.css">
+</head>
+
+<body>
+    <!-- Header/Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-car"></i>
+                <span>SpeedRent</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#dashboard" class="active"><i class="fas fa-home"></i> Dashboard</a></li>
+                <li><a href="#cars"><i class="fas fa-car"></i> Cars</a></li>
+                <li><a href="#customers"><i class="fas fa-users"></i> Customers</a></li>
+                <li><a href="#bookings"><i class="fas fa-calendar-check"></i> Bookings</a></li>
+                <li><a href="#rentals"><i class="fas fa-key"></i> Rentals</a></li>
+                <li><a href="#payments"><i class="fas fa-credit-card"></i> Payments</a></li>
+                <li><a href="#employees"><i class="fas fa-user-tie"></i> Employees</a></li>
+            </ul>
+            <div class="user-profile">
+                <i class="fas fa-user-circle"></i>
+                <span>Admin</span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Dashboard -->
+        <section id="dashboard" class="section active">
+            <div class="section-header">
+                <h1><i class="fas fa-tachometer-alt"></i> Dashboard</h1>
+                <p>Welcome to Car Rental Management System</p>
+            </div>
+
+            <!-- Stats Cards -->
+            <div class="stats-container">
+                <div class="stat-card">
+                    <div class="stat-icon" style="background-color: #4e73df;">
+                        <i class="fas fa-car"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="total-cars">0</h3>
+                        <p>Total Cars</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon" style="background-color: #1cc88a;">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="total-customers">0</h3>
+                        <p>Total Customers</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon" style="background-color: #36b9cc;">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="active-bookings">0</h3>
+                        <p>Active Bookings</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon" style="background-color: #f6c23e;">
+                        <i class="fas fa-dollar-sign"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="total-revenue">$0</h3>
+                        <p>Total Revenue</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Activities -->
+            <div class="dashboard-grid">
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Recently Added Cars</h3>
+                    </div>
+                    <div class="card-body">
+                        <div id="recent-cars-list" class="list-container">
+                            <!-- Will be populated by JS -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Quick Actions</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="quick-actions">
+                            <button class="btn-action" onclick="showSection('cars')">
+                                <i class="fas fa-plus"></i> Add New Car
+                            </button>
+                            <button class="btn-action" onclick="showSection('customers')">
+                                <i class="fas fa-user-plus"></i> Add Customer
+                            </button>
+                            <button class="btn-action" onclick="showSection('bookings')">
+                                <i class="fas fa-calendar-plus"></i> New Booking
+                            </button>
+                            <button class="btn-action" onclick="showReports()">
+                                <i class="fas fa-chart-bar"></i> View Reports
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Cars Management -->
+        <section id="cars" class="section">
+            <div class="section-header">
+                <h1><i class="fas fa-car"></i> Car Management</h1>
+                <button class="btn btn-primary" onclick="showAddCarModal()">
+                    <i class="fas fa-plus"></i> Add New Car
+                </button>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="filter-controls">
+                        <input type="text" id="car-search" placeholder="Search cars..." class="search-input">
+                        <select id="car-status-filter" class="filter-select">
+                            <option value="all">All Status</option>
+                            <option value="AVAILABLE">Available</option>
+                            <option value="RENTED">Rented</option>
+                            <option value="MAINTENANCE">Maintenance</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="table-container">
+                        <table id="cars-table" class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Brand</th>
+                                    <th>Model</th>
+                                    <th>Year</th>
+                                    <th>Price/Day</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="cars-table-body">
+                                <!-- Will be populated by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Customers Management -->
+        <section id="customers" class="section">
+            <div class="section-header">
+                <h1><i class="fas fa-users"></i> Customer Management</h1>
+                <button class="btn btn-primary" onclick="showAddCustomerModal()">
+                    <i class="fas fa-plus"></i> Add New Customer
+                </button>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-container">
+                        <table id="customers-table" class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                    <th>License No</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="customers-table-body">
+                                <!-- Will be populated by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Bookings Management -->
+        <section id="bookings" class="section">
+            <div class="section-header">
+                <h1><i class="fas fa-calendar-check"></i> Booking Management</h1>
+                <button class="btn btn-primary" onclick="showAddBookingModal()">
+                    <i class="fas fa-plus"></i> New Booking
+                </button>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-container">
+                        <table id="bookings-table" class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Booking ID</th>
+                                    <th>Customer</th>
+                                    <th>Car</th>
+                                    <th>Start Date</th>
+                                    <th>End Date</th>
+                                    <th>Total Cost</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="bookings-table-body">
+                                <!-- Will be populated by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Rentals Management -->
+        <section id="rentals" class="section">
+            <div class="section-header">
+                <h1><i class="fas fa-key"></i> Rental Management</h1>
+                <button class="btn btn-primary" onclick="showAddRentalModal()">
+                    <i class="fas fa-plus"></i> New Rental
+                </button>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-container">
+                        <table id="rentals-table" class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Rental ID</th>
+                                    <th>Booking ID</th>
+                                    <th>Pickup Date</th>
+                                    <th>Return Date</th>
+                                    <th>Late Fee</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="rentals-table-body">
+                                <!-- Will be populated by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Payments Management -->
+        <section id="payments" class="section">
+            <div class="section-header">
+                <h1><i class="fas fa-credit-card"></i> Payment Management</h1>
+                <button class="btn btn-primary" onclick="showAddPaymentModal()">
+                    <i class="fas fa-plus"></i> New Payment
+                </button>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-container">
+                        <table id="payments-table" class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Payment ID</th>
+                                    <th>Booking ID</th>
+                                    <th>Amount</th>
+                                    <th>Payment Date</th>
+                                    <th>Payment Method</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="payments-table-body">
+                                <!-- Will be populated by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Employees Management -->
+        <section id="employees" class="section">
+            <div class="section-header">
+                <h1><i class="fas fa-user-tie"></i> Employee Management</h1>
+                <button class="btn btn-primary" onclick="showAddEmployeeModal()">
+                    <i class="fas fa-plus"></i> Add Employee
+                </button>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-container">
+                        <table id="employees-table" class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Role</th>
+                                    <th>Salary</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="employees-table-body">
+                                <!-- Will be populated by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Modals -->
+    <div id="addCarModal" class="modal">
+        <!-- Modal content will be added by JavaScript -->
+    </div>
+
+    <!-- SQL Query Console -->
+    <div class="sql-console">
+        <button class="sql-toggle" onclick="toggleSqlConsole()">
+            <i class="fas fa-database"></i> SQL Console
+        </button>
+        <div class="sql-panel">
+            <h3><i class="fas fa-terminal"></i> SQL Query Console</h3>
+            <textarea id="sql-query" placeholder="Enter SQL query here..."></textarea>
+            <button class="btn btn-primary" onclick="executeSqlQuery()">Execute Query</button>
+            <div class="sql-results">
+                <h4>Results:</h4>
+                <div id="sql-results-output"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Database Initialization -->
+    <div class="db-init">
+        <button class="btn btn-warning" onclick="initializeDatabase()">
+            <i class="fas fa-database"></i> Initialize Database
+        </button>
+    </div>
+
+    <script src="car.js"></script>
+</body>
+
+</html>
