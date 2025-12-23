@@ -1,1 +1,32 @@
-
+CREATE TABLE Customer ( customer_id INT PRIMARY KEY
+GENERATED ALWAYS AS IDENTITY, name VARCHAR(100) NOT NULL,
+email VARCHAR(100) UNIQUE, phone VARCHAR(15),
+license_no VARCHAR(20) UNIQUE );
+CREATE TABLE Employee ( employee_id INT PRIMARY KEY
+GENERATED ALWAYS AS IDENTITY, name VARCHAR(100) NOT NULL,
+role VARCHAR(50) NOT NULL, salary DECIMAL(10,2) NOT NULL
+);
+CREATE TABLE Car (
+car_id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+brand VARCHAR(50) NOT NULL, model VARCHAR(50) NOT
+NULL, car_year INT NOT NULL, price_per_day
+DECIMAL(10,2) NOT NULL, status VARCHAR(20) DEFAULT
+'AVAILABLE', employee_id INT REFERENCES
+Employee(employee_id) );
+CREATE TABLE Booking ( booking_id INT PRIMARY KEY
+GENERATED ALWAYS AS IDENTITY, customer_id INT NOT NULL
+REFERENCES Customer(customer_id), car_id INT NOT NULL
+REFERENCES Car(car_id), start_date DATE NOT NULL,
+end_date DATE NOT NULL, total_cost DECIMAL(10,2),
+CHECK (end_date >= start_date)
+);
+CREATE TABLE Rental ( rental_id INT PRIMARY KEY
+GENERATED ALWAYS AS IDENTITY, booking_id INT NOT NULL
+REFERENCES Booking(booking_id), pickup_date DATE NOT
+NULL, return_date DATE NOT NULL, late_fee
+DECIMAL(10,2) );
+CREATE TABLE Payment (
+payment_id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+booking_id INT NOT NULL REFERENCES Booking(booking_id),
+amount DECIMAL(10,2) NOT NULL, payment_date DATE NOT
+NULL, payment_method VARCHAR(30) );
